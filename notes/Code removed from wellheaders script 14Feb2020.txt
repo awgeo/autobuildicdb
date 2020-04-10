@@ -1,0 +1,277 @@
+TO DO: COMPLETE REVIEW OF DATA TYPES IN DATAFRAMES I'M WRITING TO DATABASE, VS DATABASE COLUMNS.
+
+
+
+if data_source == 'web':
+if data_source == 'file':
+
+folder = 'output data/'
+
+#df_core['Thickness'] = (df_core['Base depth'] - df_core['Top depth'])
+
+#filt = (df_core['Wellbore'] == '1/2-1') | (df_core['Wellbore'] == '1/3-1') | (df_core['Wellbore'] == '31/2-17 A') 
+
+# df_core[['Wellbore', 'Core sample number', 'Core sample - top depth', 'Core sample -  bottom depth', 
+#           'Total core sample length [m]', 'Top depth', 'Base depth']].loc[filt].round(2)
+
+
+# Output df_thin_section to file
+file = '{}/wellbore_thin_section.csv'.format(folder)
+print('Saved to:', file)
+df_thin_section.to_csv(file, index=False)
+
+# Check output
+pd.read_csv(file).head(2)
+
+
+# Output file
+output_to_csv(file='wellbore_thin_section', df=df_thin_section)
+
+# Output file
+output_to_csv(file='', df=)
+
+
+# df_core.drop(labels=['Core sample - top depth',
+#                       'Core sample -  bottom depth',
+#                       'Core sample depth - uom',
+#                       'NPDID wellbore', 
+#                       'Date updated', 
+#                       'Date sync NPD'], axis=1, inplace=True)
+# df_core.head()
+
+#df_explo_nondefaultattributes = df_explo_nondefaultattributes.reindex(columns=df_explo_nondefaultattributes)
+
+# Use just populated columns
+#df_dyprojects_short = df_dyprojects.filter(['project_id', 'title', 'WellGroupFieldIsUserDefined', 'WellOrderFieldsIsUserDefined', 'f_dynamic', 'f_WellQueryId'], axis=1)
+#df_dyprojects_short.head(3)
+
+# To do: had trouble filtering this database (thinks its a list)
+
+# The columns you're joining on (left_on and right_on) must be the same data type! 
+# Because I created all wells with no project, they're all null/NaN so can't convert the column to int! Produced error:
+# ValueError: invalid literal for int() with base 10: 'nan'
+# So I converted them both to str (i.e. object?), the Python equivalent of nvarchar which seemed to work.
+
+
+# df_dbodatalithostrat.to_sql(name='DATA_Lithostrat', con=engine, if_exists='append', index=False,
+#             dtype={'created': sqlalchemy.DateTime(), 
+#                    'modified': sqlalchemy.DateTime()})
+
+
+
+--------------------------------------------------------------------
+
+DELETING DATA FROM TABLES
+
+-------------------------------------------------------------------------
+
+# # Prior to import, ensure all data is deleted from necessary tables
+
+# # Select statement
+# stmt = select([func.count(wells.columns.name)])
+
+# # Execute the select statement and use the scalar() fetch method to save the record count
+# connection.execute(stmt).scalar()
+
+# # Delete all records from WELLS table
+# delete_stmt = delete(wells)
+# result_proxy = connection.execute(delete_stmt)
+
+# # Print affected row count
+# result_proxy.rowcount
+
+# # Print results of the executing statement to verify there are no rows
+# print(connection.execute(stmt).fetchall())
+
+# # TO DO: Tried to turn the above into a function to avoid repetition but the sqlalchemy select statement doesn't accept parameters.
+# # See doc on https://stackoverflow.com/questions/19314342/python-sqlalchemy-pass-parameters-in-connection-execute
+
+
+----------------
+
+# # TEMPLATE FOR INSERT STATEMENT
+
+# # Build an insert statement to insert a record into the data table
+# insert_stmt = insert(wells).values(well_id=56, name='9/9-16', created=now)
+
+# # Execute the insert statement via the connection
+# results = connection.execute(insert_stmt)
+
+# # Print result rowcount
+# print(results.rowcount)
+
+# # Build a select statement to validate the insert
+# select_stmt = select([wells]).where(wells.columns.name == '9/9-15')
+
+# # Print the result of executing the query
+# print(connection.execute(select_stmt).first())
+
+# #repr(wells)
+
+-----------------------------------
+# # Prior to import, ensure all data is deleted from necessary tables
+
+# # Select statement
+# stmt = select([func.count(wellsuserfields.columns.f_FieldName)])
+
+# # Execute the select statement and use the scalar() fetch method to save the record count
+# connection.execute(stmt).scalar()
+
+# delete_stmt = delete(wellsuserfields)
+# result_proxy = connection.execute(delete_stmt)
+
+# # Print affected row count
+# result_proxy.rowcount
+
+# # Print results of the executing statement to verify there are no rows
+# print(connection.execute(stmt).fetchall())
+
+--------------------------------------
+# Prior to import, ensure all data is deleted from necessary tables
+
+# Select statement
+stmt = select([func.count(wellsuserfieldsvalues.columns.f_FieldID)])
+
+# Execute the select statement and use the scalar() fetch method to save the record count
+connection.execute(stmt).scalar()
+
+# Delete all records from ? table
+delete_stmt = delete(wellsuserfieldsvalues)
+result_proxy = connection.execute(delete_stmt)
+
+# Print affected row count
+result_proxy.rowcount
+
+# Print results of the executing statement to verify there are no rows
+print(connection.execute(stmt).fetchall())
+
+---------------------------------------
+# Prior to import, ensure all data is deleted from necessary tables
+
+# Select statement
+stmt = select([func.count(projects.columns.project_id)])
+
+# Execute the select statement and use the scalar() fetch method to save the record count
+connection.execute(stmt).scalar()
+
+# Delete all records from PROJECTS table
+delete_stmt = delete(projects)
+result_proxy = connection.execute(delete_stmt)
+
+# Print affected row count
+result_proxy.rowcount
+
+# Print results of the executing statement to verify there are no rows
+print(connection.execute(stmt).fetchall())
+
+----------------------------------------
+# Prior to import, ensure all data is deleted from necessary tables
+
+# Select statement
+stmt = select([func.count(wellqueries.columns.query_id)])
+
+# Execute the select statement and use the scalar() fetch method to save the record count
+connection.execute(stmt).scalar()
+
+# Delete all records from ? table
+delete_stmt = delete(wellqueries)
+result_proxy = connection.execute(delete_stmt)
+
+# Print affected row count
+result_proxy.rowcount
+
+# Print results of the executing statement to verify there are no rows
+print(connection.execute(stmt).fetchall())
+
+# CAN I TURN THE ABOVE INTO A FUNCTION, AS I KEEP RE-USING THE SAME CODE?
+
+-------------------------------------------
+# Prior to import, ensure all data is deleted from necessary tables
+
+stmt = select([func.count(projectwells.columns.project_id)])
+
+# Execute the select statement and use the scalar() fetch method to save the record count
+connection.execute(stmt).scalar()
+
+# Delete all records from ? table
+delete_stmt = delete(projectwells)
+result_proxy = connection.execute(delete_stmt)
+
+# Print affected row count
+result_proxy.rowcount
+
+# Print results of the executing statement to verify there are no rows
+print(connection.execute(stmt).fetchall())
+
+------------------------------------------------
+# Prior to import, ensure all data is deleted from necessary tables
+
+# Select statement
+stmt = select([func.count(datalithostrat.columns.well_id)])
+
+# Execute the select statement and use the scalar() fetch method to save the record count
+connection.execute(stmt).scalar()
+
+# Delete all records from table
+delete_stmt = delete(datalithostrat)
+result_proxy = connection.execute(delete_stmt)
+
+# Print affected row count
+result_proxy.rowcount
+
+#Print results of the executing statement to verify there are no rows
+print(connection.execute(stmt).fetchall())
+
+------------------------------------------
+
+----Removed from text dictionary script---
+# #Define statement
+# stmt = select([func.count(symbols.columns.dic_id)])
+
+# # #OPTIONAL: COMMENT OUT TO AVOID DELETING EXISTING DICTIONARY UNITS
+# # #Execute the select statement and use the scalar() fetch method to save the record count
+# # connection.execute(stmt).scalar()
+# # # Delete all data from dbo.SYMBOLS
+# # delete_stmt = delete(symbols)
+# # result_proxy = connection.execute(delete_stmt)
+# # #Print affected row count
+# # result_proxy.rowcount
+
+# #Print results of the executing statement
+
+------------------------------------------
+# print(connection.execute(stmt).fetchall())
+
+
+# Dates in Well Attributes appear as "#2019-10-03 00:00:00.0000000"
+# Reformat without time, but maintain datetime64[ns] data type.
+
+df_explo_nondefaultattributes['Date all updated'] = pd.to_datetime(df_explo_nondefaultattributes['Date all updated'].dt.strftime('%Y-%m-%d'))
+df_explo_nondefaultattributes['Date main level updated'] = pd.to_datetime(df_explo_nondefaultattributes['Date main level updated'].dt.strftime('%Y-%m-%d'))
+df_explo_nondefaultattributes['Publication date'] = pd.to_datetime(df_explo_nondefaultattributes['Publication date'].dt.strftime('%Y-%m-%d'))
+df_explo_nondefaultattributes['Release date'] = pd.to_datetime(df_explo_nondefaultattributes['Release date'].dt.strftime('%Y-%m-%d'))
+
+# Convert 'Date sync NPD' to datetime
+df_explo_nondefaultattributes['Date sync NPD'] = pd.to_datetime(df_explo_nondefaultattributes['Date sync NPD'])
+
+#df_explo_nondefaultattributes.dtypes
+df_explo_nondefaultattributes[['Date all updated',
+                              'Date main level updated',
+                              'Publication date',
+                              'Release date',
+                              'Date sync NPD']]
+
+# Note that NaT is a pandas null value, pd.NaT
+
+#df_explo_nondefaultattributes['f_StringValue'].dtypes
+# Loose datetime data types when melting (below)
+# f_StringValue column is dtype('O') in df (i.e. Object) and nvarchar(120) in database
+
+
+
+# tablesnames = Table('tablenames', metadata, autoload=True, autoload_with=engine)
+# intervalcolumns = Table('INTERVALCOLUMNS', metadata, autoload=True, autoload_with=engine)
+# datacore = Table('DATA_Core', metadata, autoload=True, autoload_with=engine)
+
+
+

@@ -1,0 +1,47 @@
+Tops (NPD) - Tops_ALL (NPD)
+table 8
+data type 9036
+
+!pip install modin --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org
+!pip install "modin[dask]" --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org
+
+# import os
+# os.environ["MODIN_ENGINE"] = "dask"  # Modin will use Dask
+# import modin.pandas as pd
+
+# See https://towardsdatascience.com/get-faster-pandas-with-modin-even-on-your-laptops-b527a2eeda74
+# And https://github.com/modin-project/modin
+
+SSLError: HTTPSConnectionPool(host='factpages.npd.no', port=443): Max retries exceeded with url: /pbl/core_photo_jpgs/3279_06_2044_2049m.jpg (Caused by SSLError(SSLError("bad handshake: Error([('SSL routines', 'ssl3_get_server_certificate', 'certificate verify failed')],)",),))
+
+--------------------------------------------
+CUT FROM PROJECTWELLS SECTION 26TH FEB 2020
+
+# # In the SQL database, project in WELLS is nvarchar(25) while project_id in PROJECTS is int.
+# # In the dataframes I'm writing to the database, these 2 columns are float64 and object respectively.
+# # Works if we convert both to string (or object, the Python equivalent of nvarchar)
+
+# df_explo_dbowells['project'] = df_explo_dbowells['project'].astype(str)
+# df_dyprojects['project_id'] = df_dyprojects['project_id'].astype(str)
+
+# print("df_explo_dbowells['project']: ", df_explo_dbowells['project'].dtypes)
+# print("df_dyprojects['project_id']: ", df_dyprojects['project_id'].dtypes)
+
+
+# # Need to join dbo.WELLS and dbo.PROJECTS
+
+# # dbo.PROJECTWELLS requires 3 columns (not null):
+#     #pk_index 11 PK int not null
+#     #well_id FK 2 int not null
+#     #project_id 2 FK int not null
+
+# df_projectwells = df_explo_dbowells.merge(df_dyprojects, left_on='project', right_on='project_id', how='inner')
+
+# df_projectwells[['name', 'well_id', 'project', 'project_id']]
+
+
+# # Filter to just two columns in dbo.PROJECTWELLS
+# df_projectwells = df_projectwells[['well_id', 'project_id']]
+
+# # Check
+# df_projectwells[df_projectwells.project_id == '3']

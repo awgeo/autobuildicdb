@@ -1,0 +1,80 @@
+#Rename columns
+rename_cols = {'Wellbore name' : 'Name',
+               'Sample top depth [m]' : 'Top depth',
+               'Sample bottom depth [m]' : 'Base depth'
+               }
+    
+#Apply renaming
+df_co2.rename(columns=rename_cols, inplace=True)
+df_co2
+
+
+
+
+
+df_co2.drop(labels=['Sample method', 'NPDID wellbore', 'Date sync NPD'], axis=1, inplace=True)
+
+
+
+
+#Output to file
+file = 'output data/wellbore_co2.csv'
+df_co2.to_csv(file, index=False)
+
+#Check output
+pd.read_csv(file).head(2)
+
+
+
+
+
+
+
+
+
+
+summary = pd.DataFrame({'Data type':
+                        ['Exploration well headers',
+                         'Development well headers',
+                         'Cores',
+                         'Core photos',
+                         'Thin sections',
+                         'CO2',
+                         'Oil samples',
+                         'Lithostratigraphy',
+                         'Drill stem tests',
+                         'Casing and leak-off tests',
+                         'Drilling mud',
+                         'Documents'], 
+                        'No. wells':
+                        [df_explo['Name'].nunique(),
+                         df_dev['Name'].nunique(),
+                         df_cores['Wellbore'].nunique(),
+                         df_corephotos['Wellbore'].nunique(),
+                         df_thinsections['Wellbore'].nunique(),
+                         df_co2['Wellbore name'].nunique(),
+                         df_oilsamples['Name'].nunique(),
+                         df_lithostrat['Wellbore name'].nunique(),
+                         df_dst['Name'].nunique(),
+                         df_casinglot['Wellbore'].nunique(),
+                         df_mud['Name'].nunique(),
+                         df_documents['Well'].nunique()], 
+                       })
+
+summary
+
+
+
+Columns added since I created script:
+
+Your re-ordered list of Exploration attributes is incomplete. You must include:
+ {'Plugged date', 'NPDID site survey', 'Sitesurvey', 'Reclassified date', 'Plugged and abondon date', 'Prod. licence for drilling target'}.
+
+Your re-ordered list of Development attributes is incomplete. You must include:
+ {'Prod. licence for drilling target', 'NPDID production licence target', 'Plugged date', 'Plugged and abondon date'}.
+
+overlapping data for dst
+
+mac at neptune in svg
+akerbp project
+ic training in colombia

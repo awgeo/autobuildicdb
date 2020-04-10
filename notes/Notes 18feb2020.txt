@@ -1,0 +1,185 @@
+
+What happens when data is committed to database? Some flag?
+.\ is root? opens C:\ when my database is saved to C:\ICData\Test22... why?
+
+Want to signify where data exists (e.g. Core Photos) but I've not been able to load them because it has no depths assigned? Put in dummy depths of 1-2m "CORE PHOTOS - NO DEPTHS ON NPD"
+
+Need to create well queries for each of these data types under folder "NPD Data"
+
+Thin sections
+CO2
+Oil samples
+Drill stem tests
+Casing and leak-off tests
+Drilling mud
+Documents
+
+
+See folder "core_photo_jpgs_INVALID"
+Holds only core images that are from invalid rows, i.e. df_core_photo_deletedrows.
+17
+26
+
+In well 7120/8-1 why am I missing 120_17_2110-2113m.jpg as follows:
+120_16_2207-2210m.jpg CORRECT
+120_17_2110-2113m.jpg <--- INCORRECT DEPTH VALUE ON NPD. SHOULD BE 2210-2113m.
+120_18_2213-2214m.jpg CORRECT
+Want a script that checks a) for incorrect depths (not in range) and b) any overlap in core photo depths.
+
+Downloaded some example core photos for well 7120/8-2 (note this well also has overlap!)
+
+This is the file format I want for the Legend of Core Photos!
+.\core_photo_jpgs\7120_8-2\50_01_2085-2090m.jpg
+
+-----------------------
+
+df_dbodatacore_images = df_core_photo.copy(deep=True)
+
+df_dbodatacore_images.isnull().sum()
+
+df_dbodatacore_images.dtypes
+
+# Drop 'Well' column as IC will use well_id
+df_dbodatacore_images.drop(columns='Well', inplace=True)
+df_dbodatacore_images.head()
+
+# Rename columns to match dbo.DATA_Core
+df_dbodatacore_images.columns = ['well_id', 'top_depth', 'base_depth', 'legend']
+df_dbodatacore_images.head(3)
+
+
+
+
+# List of all columns in dbo.DATA_Core
+# Insert new columns only as necessary for Core Photos
+
+df_dbodatacore_images['data_type'] = 3000 # 3000 (NPD Core Images)
+# df_dbodatacore_images['top_depth'] = 
+# df_dbodatacore_images['base_depth'] = 
+df_dbodatacore_images['top_boundary'] = 1
+df_dbodatacore_images['base_boundary'] = 1
+df_dbodatacore_images['symbol_id'] = 0
+# df_dbodatacore_images['legend'] = 
+# df_dbodatacore_images['abr'] = 
+# df_dbodatacore_images['attr'] = '{"ZoneColour":-1df_dbodatacore_images["ZoneColourIsIpAuto":truedf_dbodatacore_images["EventSymbolId":0df_dbodatacore_images["IsLocked":falsedf_dbodatacore_images["OriginalZoneIndex":0}'
+# df_dbodatacore_images['interpreter'] = 
+df_dbodatacore_images['created'] = now
+df_dbodatacore_images['creator'] = 1
+# df_dbodatacore_images['modified'] = now
+# df_dbodatacore_images['modifier'] = 1
+df_dbodatacore_images['obsno'] = 0
+df_dbodatacore_images['mindepth'] = 0
+df_dbodatacore_images['maxdepth'] = 0
+# df_dbodatacore_images['remark'] = 
+# df_dbodatacore_images['geofeature'] = 
+df_dbodatacore_images['source'] = 'Script'
+df_dbodatacore_images['dipangle'] = 0
+df_dbodatacore_images['dipazimuth'] = 0
+df_dbodatacore_images['age'] = 0
+# df_dbodatacore_images['owconf'] = 
+# df_dbodatacore_images['owqual'] = 
+# df_dbodatacore_images['owkind'] = 
+# df_dbodatacore_images['owbaseconf'] = 
+# df_dbodatacore_images['owbasequal'] = 
+# df_dbodatacore_images['owbasekind'] = 
+df_dbodatacore_images['top_age'] = 0
+df_dbodatacore_images['base_age'] = 0
+df_dbodatacore_images['f_interpid'] = 0
+# df_dbodatacore_images['well_id'] = 
+
+df_dbodatacore_images
+
+
+# Write df to database
+
+df_dbodatacore_images.to_sql('DATA_Core', engine, if_exists='append', index = False)
+
+print('dbo.DATA_Core')
+sqlselect_rows([datacore])
+
+
+
+sql = " SELECT * FROM DATA_Core WHERE data_type = 3000 "
+pd.read_sql_query(sql, engine)
+
+
+---
+
+WHERE ta.tabledescription IN  
+(
+'Core - Conventional', 
+'Petrography (NPD)', 
+'Drill Stem Test (NPD)', 
+'Casing and LOT (NPD)', 
+'CO2 Content (NPD)',  
+'Oil Sample (NPD)', 
+'Drilling Mud (NPD)'
+) 
+
+
+
+for key, value in wellqueries_data.items():
+    print(key, ':', len(value))
+
+
+
+, index = ['wellquery_1', 
+                                                         'wellquery_2', 
+                                                         'wellquery_3', 
+                                                         'wellquery_4',
+                                                         'wellquery_5',
+                                                         'wellquery_6',
+                          # # Before 'appending' to dbo.PROJECTS, need to delete existing, default IC project.
+
+# delete_stmt = delete(projects)
+# result_proxy = connection.execute(delete_stmt)559
+
+# # Print affected row count
+# print('Number of rows deleted:', result_proxy.rowcount)
+
+# # Print results of the executing statement to verify there are no rows
+# #print('Verify that dbo.PROJECTS is empty:')
+# #print(connection.execute(select_stmt).fetchall())
+
+
+
+
+                               'wellquery_7',
+                                                         'wellquery_8',
+                                                         'wellquery_9',
+                                                         'wellquery_10',
+                                                         'wellquery_11',
+                                                         'wellquery_12',
+                                                         'wellquery_13'
+                                                        ]
+
+
+# ic_dbowells_columns = {"pk_index", "well_id", "units", "created", "creator", "modified", "modifier", "project", 
+#                           "rte", "sea_bed", "rig_elevation", "datum", "terminal_depth", "spud_date", "completion_date", 
+#                           "quadrant", "sub_block", "kelly", "symbol_id", "client", "utmzone", "code", "name", 
+#                           "field", "location", "country", "basin", "name1", "name2", "strat_schemes", "grnd_elev", 
+#                           "f_block", "grid_x", "grid_y", "latitude", "longtitude", "geodatum", "facility", 
+#                           "discovery_name", "seismic_line", "intent", "f_ipid", "f_licenceNumber", "f_api", 
+#                           "f_comment", "f_province", "f_county", "f_state", "f_section", "f_Township", "f_range", "f_uwi"}
+
+
+# NOT REQUIRED
+#Columns in dbo.WELLS (correct order) that are not in df_explo_dbowells:
+#rte, rig_elevation, sub_block, basin, name2, strat_schemes, grnd_elev, "f_ipid, f_api, f_comment, 
+#f_province, f_county, f_state, f_section, f_Township, f_range
+
+
+# Remove empty rows, specifically where no 'Press Release URL' for Exploration references
+df_dbodataco2_co2content['URL'].replace(' ', np.nan, inplace=True)
+df_dbodataco2_co2content.dropna(subset=['URL'], inplace=True)
+
+# Name and create file for Exploration wells
+explo_ref_filename = 'output data/IC_explo_references.csv'
+df_dbodataco2_co2content.to_csv(explo_ref_filename, index=False)
+print('Created file:', explo_ref_filename)
+df_dbodataco2_co2content.head(n=6)
+
+
+Create a dictionary with default values for tabletype 'I' (e.g. dbo.CO2)
+What I already have is a dictionary (intervalcolumns_var) with default values for dbo.INTERVALCOLUMNS.
+Each type of data can take a copy of this, and amend it as necessary.

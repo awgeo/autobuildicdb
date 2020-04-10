@@ -1,0 +1,12 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: win-64
+# _ipyw_jlab_nb_ext_conf=0.1.0=py36he6757f0_0
+numpy=1.14.3=py36h9fa60d3_1
+pandas=0.23.0=py36h830ac7b_0
+pyodbc=4.0.23=py36h6538335_0
+python=3.6.5=h0c2934d_0
+requests=2.18.4=py36h4371aae_1
+sqlalchemy=1.2.7=py36ha85dd04_0
+urllib3=1.22=py36h276f60a_0
+
