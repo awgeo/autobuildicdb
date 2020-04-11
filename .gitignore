@@ -1,8 +1,8 @@
 # First, entire directories to ignore:
 
-backups/
-dask-worker-space/
-notes/
+/backups/*
+/dask-worker-space/*
+/notes/*
 
 *.BIN
 *.bin
