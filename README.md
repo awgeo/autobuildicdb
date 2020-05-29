@@ -1,5 +1,5 @@
 # autobuildicdb
-Download and reformat well data from the NPD, then auto-populate an IC well database.
+Download and reformat well data from the NPD, then auto-populate (write directly to) an IC well database.
 
 <b>Introduction</b>
 
