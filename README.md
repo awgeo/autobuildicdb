@@ -1,7 +1,7 @@
 # autobuildicdb
 Download and reformat well data from the NPD, then auto-populate an IC well database.
 
-<b>Introduction/b>
+<b>Introduction</b>
 
 When building a geological well database that covers Norway, we often start with public data from the Norwegian Petroleum Directorate (NPD). The NPD FactPages provide tabulated data for some 1900 exploration and 5000 development wells. Starting with Well Header attributes (well location, depth, status, etc.), we download the latest NPD data and begin to populate our database.
 
