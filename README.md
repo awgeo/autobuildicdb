@@ -15,12 +15,12 @@ Each dataset presents different data management challenges. For example, the dep
 
 The script (autobuildicdb_NPD_PrepareData.ipynb) outputs reformatted well header files (CSV) that are optimised for import to IC via the relevant import tools, like Import Well Headers and Import Multi-Well ASCII file.
 
-<b>Write directly to the SQL Server database<b>
+<b>Write directly to the SQL Server database</b>
 
-A second, experimental part to this project (autobuildicdb_NPD_WriteToDatabase.ipynb) does away with the manual import process altogether, and instead establishes a connection to and writes data directly to the IC SQL Server database. This workflow requires a detailed understanding of the inner workings of the IC database, and is somewhat convoluted as column names are different in the SQL tables. This script is not fully tested and should only be used on a blank IC database and an existing populated IC database.
+A second, experimental part to this project (autobuildicdb_NPD_WriteToDatabase.ipynb) does away with the manual import process altogether, and instead establishes a connection to and writes data directly to the IC SQL Server database. This workflow requires a detailed understanding of the inner workings of the IC database, and is somewhat convoluted as column  (data type) names are different in the SQL tables. This script is not fully tested and should only be used on a blank IC database, not on an existing populated IC database.
 
 <b>Other scripts (Text Dictionaries, Shapefiles, etc.)</b>
 
 A number of other scripts (work in progress) help build Text Dictionaries based on Lithostratigraphy data, and auto-populate your IC project with NPD Shapefiles. Again, these should be used with caution.
 
-Please get in touch if you'd like 
+Please get in touch if you'd like to explore any part of this workflow.
