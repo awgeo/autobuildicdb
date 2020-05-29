@@ -13,11 +13,11 @@ The full set of tabulated data provided by the NPD includes: Well Headers Cores,
 
 Each dataset presents different data management challenges. For example, the depth values of Core Photo are presented in a single column, which we need to split out into three columns: bottom depth, top depth and depth unit. We can then convert all units to metres, to match our IC project configuration. Also, we might want to extract a filename from each Core Photo URL, and check for erroneous data (invalid depths/units, overlapping intervals, repeated depths, etc.)
 
-The script (autobuildicdb_NPD_PrepareData.ipynb) outputs reformatted well header files (CSV) that are optimised for import to IC via the relevant import tools, like Import Well Headers and Import Multi-Well ASCII file.
+The main script ('autobuildicdb_NPD_PrepareData.ipynb') outputs reformatted well header files (CSV) that are optimised for import to IC via the relevant import tools, like Import Well Headers and Import Multi-Well ASCII file.
 
 <b>Write directly to the SQL Server database</b>
 
-A second, experimental part to this project (autobuildicdb_NPD_WriteToDatabase.ipynb) does away with the manual import process altogether, and instead establishes a connection to and writes data directly to the IC SQL Server database. This workflow requires a detailed understanding of the inner workings of the IC database, and is somewhat convoluted as column  (data type) names are different in the SQL tables. This script is not fully tested and should only be used on a blank IC database, not on an existing populated IC database.
+A second, experimental part to this project ('autobuildicdb_NPD_WriteToDatabase.ipynb') does away with the manual import process altogether, and instead establishes a connection to and writes data directly to the IC SQL Server database. This workflow requires a detailed understanding of the inner workings of the IC database, and is somewhat convoluted as column  (data type) names are different in the SQL tables. This script is not fully tested and should only be used on a blank IC database, not on an existing populated IC database.
 
 <b>Other scripts (Text Dictionaries, Shapefiles, etc.)</b>
 
