@@ -17,7 +17,7 @@ The main script ('autobuildicdb_NPD_PrepareData.ipynb') outputs reformatted well
 
 <b>Write directly to the SQL Server database</b>
 
-A second, experimental part to this project ('autobuildicdb_NPD_WriteToDatabase.ipynb') does away with the manual import process altogether, and instead establishes a connection to and writes data directly to the IC SQL Server database. This workflow requires a detailed understanding of the inner workings of the IC database, and is somewhat convoluted. We are required to write all the data that IC would do during the manual import process. Furthermore, the SQL tables and attributes are named different inside the database to what we see in the IC User Interface. This script is not fully tested. If you want to experiment, use it on a blank IC database and not on an existing populated IC database.
+A second, experimental part to this project ('autobuildicdb_NPD_WriteToDatabase.ipynb') does away with the manual import process altogether, and instead establishes a connection to and writes data directly to the IC SQL Server database. This workflow requires a detailed understanding of the architecture of the IC SQL Server database, and is somewhat convoluted. We are required to write all the data that IC would do during the manual import process. Furthermore, the SQL tables and attributes are named different inside the database to what we see in the IC User Interface. This script is not fully tested. If you want to experiment, use it on a blank IC database and not on an existing populated IC database.
 
 <b>Other scripts (Text Dictionaries, Shapefiles, etc.)</b>
 
